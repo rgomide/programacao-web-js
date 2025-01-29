@@ -1,7 +1,7 @@
 # JavaScript moderno: ES6+ features e boas práticas
 
 ## Sumário
-- [Objectivos](#objectivos)
+- [Objetivos](#objetivos)
 - [Introdução ao JavaScript Moderno](#introdução-ao-javascript-moderno)
 - [Declaração de Variáveis e Escopo](#declaração-de-variáveis-e-escopo)
 - [Funções e Arrow Functions](#funções-e-arrow-functions)
