@@ -3,7 +3,8 @@
 ## Sumário
 - [Objetivos](#objetivos)
 - [Comandos Básicos](#comandos-básicos)
-- [Exercícios](#exercícios)
+- [Exercícios Resvolvidos](#exercícios-resvolvidos)
+- [Exercícios Propostos](#exercícios-propostos)
 - [Referências](#referências)
 
 ## Objetivos
