@@ -1,0 +1,17 @@
+{
+  "name": "exemplo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "calculadora": "node calculadora.js",
+    "palindromo": "node palindromo.js",
+    "envVarTest": "node --env-file=.env envVarTest.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
+  }
+}

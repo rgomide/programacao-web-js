@@ -227,12 +227,12 @@ Execute o script usando `node palindromo.js`
 
 ```json
 "scripts": {
-  "start": "node calculadora.js",
+  "calculadora": "node calculadora.js",
   "palindromo": "node palindromo.js"
 }
 ```
 
-3. Execute os scripts usando `npm run start` e `npm run palindromo`
+3. Execute os scripts usando `npm run calculadora` e `npm run palindromo`
 
 ### Exercício 5: Uso de variáveis de ambiente
 1. Crie um arquivo `.env` com o seguinte conteúdo:
@@ -251,7 +251,7 @@ console.log(`Idade: ${process.env.AGE}`);
 
 3. Execute o script usando `node envVarTest.js`
 
-4. Crie um script npm para executar o `envVarTest.js`
+4. Crie um script npm para executar o `envVarTest.js` com a flag `--env-file=.env`
 
 5. Execute o script usando `npm run envVarTest`
 
