@@ -49,6 +49,7 @@ Promises são objetos que representam a eventual conclusão (ou falha) de uma op
 - `Pending`: Estado inicial
 - `Fulfilled`: Operação concluída com sucesso
 - `Rejected`: Operação falhou
+- `Settled`: Estado final, após a Promise ser resolvida ou rejeitada
 
 ```javascript
 const minhaPromise = new Promise((resolve, reject) => {
@@ -71,18 +72,23 @@ minhaPromise
 stateDiagram-v2
     [*] --> Pending: Nova Promise criada
     
+    state Settled {
+        Fulfilled
+        Rejected
+    }
+    
     Pending --> Fulfilled: resolve()
     Pending --> Rejected: reject()
     
     Fulfilled --> [*]: .then()
     Rejected --> [*]: .catch()
     
-    note right of Pending
+    note left of Pending
         Estado inicial de
         todas as Promises
     end note
     
-    note right of Fulfilled
+    note left of Fulfilled
         Promise resolvida
         com sucesso
     end note
@@ -161,13 +167,15 @@ async function buscarDadosCompletos() {
 2. Evite misturar callbacks com promises
 3. Prefira async/await para código mais legível
 4. Use [Promise.all()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all) quando possível para operações paralelas
-5. Mantenha o código assíncrono modular e reutilizável
+5. Use [Promise.race()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race) para operações paralelas com timeout. O resultado será a primeira Promise a ser resolvida ou rejeitada.
+6. Mantenha o código assíncrono modular e reutilizável
 
 ## Exercícios resolvidos
 
-1. [Criando uma Promise para validar um número](./exemplo01.js)
-2. [Encadeamento de Promises com Promise.all()](./exemplo02.js)
-3. [Consumindo uma API com async/await e fetch](./exemplo03.js)
+1. [Criando uma Promise para validar um número](./src/exemplo01.js)
+2. [Encadeamento de Promises com Promise.all()](./src/exemplo02.js)
+3. [Consumindo uma API com async/await e fetch](./src/exemplo03.js)
+4. [Promises paralelas com Promise.race()](./src/exemplo04.js)
 
 ## Exercícios Propostos
 
