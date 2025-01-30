@@ -46,9 +46,9 @@ buscarDados((dados) => {
 Promises são objetos que representam a eventual conclusão (ou falha) de uma operação assíncrona.
 
 ### Estados de uma Promise
-- Pending: Estado inicial
-- Fulfilled: Operação concluída com sucesso
-- Rejected: Operação falhou
+- `Pending`: Estado inicial
+- `Fulfilled`: Operação concluída com sucesso
+- `Rejected`: Operação falhou
 
 ```javascript
 const minhaPromise = new Promise((resolve, reject) => {
