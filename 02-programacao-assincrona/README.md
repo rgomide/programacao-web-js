@@ -184,7 +184,7 @@ async function buscarDadosCompletos() {
 
 **Instruções**:
 1. Crie uma função que aceita um array de tempos em millisegundos
-2. Utilize Promise.all() para gerenciar múltiplos timers
+2. Utilize `Promise.all()` para gerenciar múltiplos timers
 3. A função deve retornar apenas quando todos os timers terminarem
 4. Inclua mensagens indicando o início e fim de cada timer
 
@@ -197,7 +197,7 @@ async function buscarDadosCompletos() {
    - Nome: mínimo 3 caracteres
    - Idade: número positivo
    - Email: deve conter @ e .
-3. Use async/await
+3. Use `async/await`
 4. Retorne mensagens de erro específicas para cada validação
 
 ### 3. Verificador de Email
@@ -207,10 +207,10 @@ async function buscarDadosCompletos() {
 1. Crie duas funções de validação:
    - Uma para verificar o formato do email (deve conter @)
    - Outra para verificar o domínio (deve terminar em .com)
-2. Cada função deve retornar uma Promise
+2. Cada função deve retornar uma `Promise`
 3. Implemente a validação de duas formas:
-   - Usando .then() encadeado
-   - Usando async/await
+   - Usando `.then()` encadeado
+   - Usando `async/await`
 4. Teste com emails válidos e inválidos
 
 ### 4. Processamento em Lote
@@ -220,7 +220,7 @@ async function buscarDadosCompletos() {
 1. Crie uma função que recebe um array de CEPs
 2. A função deve:
    - Buscar todos os CEPs simultaneamente
-   - Utilizar Promise.all()
+   - Utilizar `Promise.all()`
    - Tratar erros adequadamente (ex.: CEP inválido ou Endereço não encontrado)
 3. Retornar um array com todos os endereços encontrados
 4. Testar com diferentes combinações de CEPs
