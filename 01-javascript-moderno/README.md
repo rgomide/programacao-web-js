@@ -204,8 +204,8 @@ Crie um sistema para gerar relatórios formatados:
 - Implemente validações usando optional chaining
 
 ## Recursos adicionais
+- [Javascript Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)
 - [MDN Web Docs: JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 - [ECMAScript 6 - ECMAScript 2015](https://www.ecma-international.org/ecma-262/6.0/)
 - [JavaScript.info](https://javascript.info/)
 - [Exploring ES6](https://exploringjs.com/es6/)
-
