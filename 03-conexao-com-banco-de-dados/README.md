@@ -1,4 +1,4 @@
-# Configuração e uso da biblioteca ‘pg’ com Node.js
+# Configuração e uso da biblioteca `pg` com Node.js
 
 ## Instalação
 
