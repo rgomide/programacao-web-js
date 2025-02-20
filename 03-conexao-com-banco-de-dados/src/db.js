@@ -1,4 +1,4 @@
-const { Client } = require('pg');
+const { Pool } = require('pg');
 
 const dbConfig = {
   host: process.env.DB_HOST,
@@ -8,6 +8,15 @@ const dbConfig = {
   database: process.env.DB_NAME,
 };
 
-const db = new Client(dbConfig);
+const pool = new Pool(dbConfig);
 
-module.exports = db;
+const closeConnection = async () => {
+  await pool.end();
+};
+
+const query = async (text, params) => {
+  const result = await pool.query(text, params);
+  return result;
+};
+
+module.exports = { closeConnection, query };

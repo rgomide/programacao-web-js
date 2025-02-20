@@ -25,48 +25,85 @@ npm install pg
 
 ## Configuração
 
-A conexão com o banco de dados é feita a partir da classe `Client` da biblioteca `pg`. Os métodos `connect` e `end` são responsáveis por iniciar e encerrar a conexão com o banco de dados.
+A conexão com o banco de dados é feita utilizando a classe `Pool` da biblioteca `pg`. O Pool é uma ferramenta essencial que gerencia um conjunto de conexões reutilizáveis com o banco de dados, oferecendo várias vantagens:
 
-O construtor da classe `Client` recebe um objeto com as configurações de conexão com o banco de dados. Os parametros essenciais são:
+- Melhor performance ao reutilizar conexões existentes
+- Gerenciamento automático do número de conexões
+- Tratamento de falhas e reconexões
+- Evita vazamentos de memória
 
-- `host`: O host do banco de dados
-- `port`: A porta do banco de dados
-- `user`: O usuário do banco de dados
-- `password`: A senha do usuário
-- `database`: O nome do banco de dados
+### Estrutura do arquivo db.js
 
-Exemplo de uso:
+Exemplo de uso com Pool:
 
 ```js
-const { Client } = require('pg');
+const { Pool } = require('pg');
 
-const db = new Client({
-  host: 'localhost',
-  port: 5432,
-  user: 'postgres',
-  password: 'postgres',
-  database: 'postgres'
-});
+const dbConfig = {
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+};
 
-db.connect();
+const pool = new Pool(dbConfig);
 
-// ...
+// Função auxiliar para executar queries
+const query = async (text, params) => {
+  const result = await pool.query(text, params);
+  return result;
+};
 
-db.end();
+// Função para encerrar a conexão com o banco
+const closeConnection = async () => {
+  await pool.end();
+};
 ```
+
+### Uso do Pool
+
+O arquivo exporta duas funções principais:
+
+1. `query(text, params)`: Executa uma query SQL e retorna o resultado
+   - `text`: String contendo a query SQL
+   - `params`: Array opcional com os parâmetros da query
+   - Retorna um objeto com os resultados da query
+
+2. `closeConnection()`: Fecha todas as conexões do pool
+   - Deve ser chamada ao finalizar o uso do banco
+   - Importante para evitar que a aplicação fique presa
 
 ## Operações com o banco de dados
 
-As operações de leitura e escrita no banco de dados são feitas por meio do método `query`. Este método recebe uma string com a query SQL e retorna uma Promise com o resultado da query. O atributo `rows` da resposta contém a relação de registros retornados pela query.
-
-Exemplo de uso:
+As operações são realizadas através da função `query`. Exemplos de uso:
 
 ```js
-const result = await db.query('SELECT * FROM aluno');
-console.log(result.rows);
+// Consulta simples
+const result = await query('SELECT * FROM aluno');
+console.log(result.rows); // Lista todos os alunos
+
+// Consulta com parâmetros
+const id = 1;
+const result = await query('SELECT * FROM aluno WHERE id = $1', [id]);
+console.log(result.rows[0]); // Mostra um aluno específico
+
+// Inserção com parâmetros
+const novoAluno = ['João', 'joao@email.com', '12345', '2000-01-01'];
+const result = await query(
+  'INSERT INTO aluno (nome, email, matricula, data_nascimento) VALUES ($1, $2, $3, $4) RETURNING *',
+  novoAluno
+);
 ```
 
-O arquivo [alunoModel.js](./src/alunoModel.js) contém exemplos de uso do método `query` para as operações de leitura e escrita no banco de dados.
+### Boas Práticas
+
+1. Sempre use parâmetros (`$1`, `$2`, etc.) em vez de concatenar strings
+2. Utilize `try/catch` para tratamento de erros
+3. Chame `closeConnection()` ao finalizar o uso do banco
+4. Use variáveis de ambiente para configurações sensíveis
+
+O arquivo [alunoModel.js](./src/alunoModel.js) implementa estas práticas, fornecendo uma interface segura e organizada para operações Create Read Update Delete (CRUD) na tabela de alunos.
 
 ## Projeto de exemplo
 
@@ -96,10 +133,10 @@ O arquivo `aluno.sql` define a estrutura da tabela e dados iniciais. A tabela `a
 erDiagram
     ALUNO {
         int id PK
-        varchar(50) nome "NOT NULL"
-        varchar(50) email "NOT NULL"
+        varchar(255) nome "NOT NULL"
+        varchar(255) email "NOT NULL"
+        varchar(255) matricula "NOT NULL"
         date data_nascimento "NOT NULL"
-        varchar(50) matricula "NOT NULL"
         timestamp created_at
         timestamp updated_at
     }
