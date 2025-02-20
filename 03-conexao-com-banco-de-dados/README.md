@@ -1,5 +1,20 @@
 # Configuração e uso da biblioteca `pg` com Node.js
 
+## Sumário
+
+- [Instalação](#instalação)
+- [Configuração](#configuração)
+- [Operações com o banco de dados](#operações-com-o-banco-de-dados)
+- [Projeto de exemplo](#projeto-de-exemplo)
+  - [Executando o projeto](#executando-o-projeto)
+  - [Banco de dados (aluno.sql)](#banco-de-dados-alunosql)
+  - [Variáveis de ambiente (.env)](#variáveis-de-ambiente-env)
+  - [Conexão com o banco de dados (db.js)](#conexão-com-o-banco-de-dados-dbjs)
+  - [Modelo de dados (alunoModel.js)](#modelo-de-dados-alunomodeljs)
+  - [Arquivo principal (index.js)](#arquivo-principal-indexjs)
+- [Exercícios](#exercícios)
+- [Referências](#referências)
+
 ## Instalação
 
 Utilizaremos a biblioteca `pg` para acessar o banco de dados PostgreSQL. Para instalar, execute o seguinte comando:
@@ -66,7 +81,7 @@ Esse projeto tem quatro arquivos principais:
 ### Executando o projeto
 
 1. Crie um banco de dados chamado `escola`
-2. Execute o arquivo `aluno.sql` para criar a tabela e inserir dados iniciais
+2. Execute o arquivo `aluno.sql` para criar a tabela e inserir os dados iniciais
 3. Execute o comando:
 
 ```bash
