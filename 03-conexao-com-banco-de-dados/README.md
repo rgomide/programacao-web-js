@@ -201,9 +201,9 @@ O vídeo a seguir mostra como utilizar a extensão Database Client para gerencia
 
 4. Modifique o arquivo `index.js` para implementar um programa que permite ao usuário cadastrar, listar, atualizar e deletar cursos. Utilize a bibliteca `prompt-sync` para capturar as entradas do usuário. Instale a extensão a partir do comando:
 
-  ```bash
-  npm install prompt-sync
-  ```
+    ```bash
+    npm install prompt-sync
+    ```
 
 ## Referências
 - [PostgreSQL](https://www.postgresql.org/)
