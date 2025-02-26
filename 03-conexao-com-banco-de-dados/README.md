@@ -166,6 +166,8 @@ O arquivo `index.js` é o arquivo principal que inicia nossa aplicação. Ele im
 
 ## Exercícios
 
+### Exercício 1 - CRUD de cursos
+
 1. Crie um arquivo chamado `curso.sql` que define a estrutura da tabela `curso` com os seguintes atributos:
    - `id` (chave primária)
    - `nome` (varchar, não nulo)
