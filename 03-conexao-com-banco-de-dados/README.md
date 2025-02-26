@@ -12,6 +12,7 @@
   - [Conexão com o banco de dados (db.js)](#conexão-com-o-banco-de-dados-dbjs)
   - [Modelo de dados (alunoModel.js)](#modelo-de-dados-alunomodeljs)
   - [Arquivo principal (index.js)](#arquivo-principal-indexjs)
+- [Utilizando a extensão Database Client](#utilizando-a-extensão-database-client)
 - [Exercícios](#exercícios)
 - [Referências](#referências)
 
@@ -163,6 +164,30 @@ O arquivo `alunoModel.js` é responsável pela manipulação dos dados da tabela
 ### Arquivo principal (index.js)
 
 O arquivo `index.js` é o arquivo principal que inicia nossa aplicação. Ele importa o modelo de dados e a conexão com o banco de dados e utiliza as funções do modelo de dados para manipular os dados da tabela `aluno`.
+
+## Utilizando a extensão Database Client
+
+A extensão Database Client é uma ferramenta poderosa que permite gerenciar seu banco de dados PostgreSQL diretamente no VS Code.
+
+### Instalação
+
+1. Abra o VS Code
+2. Vá para a aba de extensões (Ctrl+Shift+X)
+3. Pesquise por "Database Client"
+4. Clique em "Instalar"
+
+Ou você pode instalar a extensão através do link: [Database Client](https://marketplace.visualstudio.com/items?itemName=cweijan.vscode-database-client2)
+
+### Utilizando a extensão
+
+O vídeo a seguir mostra como utilizar a extensão Database Client para gerenciar seu banco de dados PostgreSQL:
+
+<p align="center">
+  <video controls>
+    <source src="../assets/video/databaseClientDemo.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</p>
 
 ## Exercícios
 
