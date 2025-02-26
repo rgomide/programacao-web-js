@@ -2,7 +2,7 @@
 
 ## Sumário
 
-- [Instalação](#instalação)
+- [Dependências](#dependências)
 - [Configuração](#configuração)
 - [Operações com o banco de dados](#operações-com-o-banco-de-dados)
 - [Projeto de exemplo](#projeto-de-exemplo)
@@ -13,10 +13,12 @@
   - [Modelo de dados (alunoModel.js)](#modelo-de-dados-alunomodeljs)
   - [Arquivo principal (index.js)](#arquivo-principal-indexjs)
 - [Utilizando a extensão Database Client](#utilizando-a-extensão-database-client)
+  - [Instalação](#instalação)
+  - [Demonstração da extensão](#demonstração-da-extensão)
 - [Exercícios](#exercícios)
 - [Referências](#referências)
 
-## Instalação
+## Dependências
 
 Utilizaremos a biblioteca `pg` para acessar o banco de dados PostgreSQL. Para instalar, execute o seguinte comando:
 
@@ -178,7 +180,7 @@ A extensão Database Client é uma ferramenta poderosa que permite gerenciar seu
 
 Ou você pode instalar a extensão através do link: [Database Client](https://marketplace.visualstudio.com/items?itemName=cweijan.vscode-database-client2)
 
-### Utilizando a extensão
+### Demonstração da extensão
 
 O vídeo a seguir mostra como utilizar a extensão Database Client para gerenciar seu banco de dados PostgreSQL:
 
