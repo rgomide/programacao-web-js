@@ -199,8 +199,13 @@ O vídeo a seguir mostra como utilizar a extensão Database Client para gerencia
 
 3. Crie um arquivo chamado `cursoModel.js` que contém as funções para criar, ler, atualizar e deletar dados da tabela `curso`.
 
-4. Modifique o arquivo `index.js` para implementar um programa que permite ao usuário cadastrar, listar, atualizar e deletar cursos. Utilize a bibliteca `prompt-sync` para capturar as entradas do usuário.
+4. Modifique o arquivo `index.js` para implementar um programa que permite ao usuário cadastrar, listar, atualizar e deletar cursos. Utilize a bibliteca `prompt-sync` para capturar as entradas do usuário. Instale a extensão a partir do comando:
+
+```bash
+npm install prompt-sync
+```
 
 ## Referências
 - [PostgreSQL](https://www.postgresql.org/)
 - [pg](https://node-postgres.com/)
+- [Extensão Database Client](https://marketplace.visualstudio.com/items?itemName=cweijan.vscode-database-client2)
