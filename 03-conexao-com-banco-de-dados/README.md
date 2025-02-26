@@ -182,7 +182,7 @@ Ou você pode instalar a extensão através do link: [Database Client](https://m
 
 O vídeo a seguir mostra como utilizar a extensão Database Client para gerenciar seu banco de dados PostgreSQL:
 
-[![Demonstração da extensão Database Client](https://img.youtube.com/vi/xi3XRgxIIhE/0.jpg)](https://www.youtube.com/watch?v=xi3XRgxIIhE)
+[![Demonstração da extensão Database Client](https://img.youtube.com/vi/bOG6rnNoWX4/0.jpg)](https://www.youtube.com/watch?v=bOG6rnNoWX4)
 
 ## Exercícios
 
