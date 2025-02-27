@@ -2,6 +2,19 @@
 
 ## Sumário
 
+- [Introdução](#introdução)
+- [Estrutura de projeto](#estrutura-de-projeto)
+- [O framework Express](#o-framework-express)
+  - [Configuração do servidor HTTP](#configuração-do-servidor-http)
+  - [Definição das rotas para as funcionalidades da API](#definição-das-rotas-para-as-funcionalidades-da-api)
+  - [Configuração do middleware para converter o corpo das requisições como JSON](#configuração-do-middleware-para-converter-o-corpo-das-requisições-como-json)
+- [Rotas da aplicação](#rotas-da-aplicação)
+  - [Extraindo parâmetros da URL (Path Parameters ou Parâmetros de caminho)](#extraindo-parâmetros-da-url-path-parameters-ou-parâmetros-de-caminho)
+  - [Extraindo parâmetros do corpo da requisição (Body Parameters ou Parâmetros do corpo)](#extraindo-parâmetros-do-corpo-da-requisição-body-parameters-ou-parâmetros-do-corpo)
+  - [Extraindo parâmetros da query string (Query Parameters ou Parâmetros de consulta)](#extraindo-parâmetros-da-query-string-query-parameters-ou-parâmetros-de-consulta)
+- [Demonstração da extensão Thunder Client](#demonstração-da-extensão-thunder-client)
+- [Exercícios](#exercícios)
+
 ## Introdução
 
 O Express é um framework para criar servidores HTTP em Node.js. Ele é muito popular por ser extremamente simples e flexível, além de possuir uma grande comunidade de desenvolvedores.
