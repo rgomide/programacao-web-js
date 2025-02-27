@@ -85,6 +85,22 @@ As rotas da aplicação são:
 - `PUT /alunos/:id`: Atualiza um aluno pelo ID.
 - `DELETE /alunos/:id`: Deleta um aluno pelo ID.
 
+### O objeto request (req)
+
+O objeto request (req) é o objeto que é passado para a função de callback de uma rota. Ele possui métodos e propriedades para acessar os dados da requisição.
+
+Exemplo:
+
+```javascript
+app.get('/alunos/:id', async (req, res) => {
+  const id = req.params.id; // Extrai o parâmetro id da URL
+  const aluno = await alunoModel.getById(id); // Busca o aluno pelo ID
+  res.json(aluno); // Retorna o aluno encontrado
+});
+```
+
+Existem outros métodos e propriedades que podem ser utilizados para acessar os dados da requisição. As próximas seções irão demonstrar como utilizar os principais métodos e propriedades do objeto request.
+
 ### Extraindo parâmetros da URL (Path Parameters ou Parâmetros de caminho)
 
 Os parâmetros de caminho são extraídos da URL com o método `req.params`.
@@ -135,7 +151,7 @@ app.get('/hello', (req, res) => {
 });
 ```
 
-### O objeto response
+### O objeto response (res)
 
 O objeto response é o objeto que é retornado pela função de callback de uma rota. Ele possui métodos para enviar a resposta para o cliente.
 
