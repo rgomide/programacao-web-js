@@ -9,10 +9,11 @@
   - [Definição das rotas para as funcionalidades da API](#definição-das-rotas-para-as-funcionalidades-da-api)
   - [Configuração do middleware para converter o corpo das requisições como JSON](#configuração-do-middleware-para-converter-o-corpo-das-requisições-como-json)
 - [Rotas da aplicação](#rotas-da-aplicação)
+  - [O objeto request (req)](#o-objeto-request-req)
   - [Extraindo parâmetros da URL (Path Parameters ou Parâmetros de caminho)](#extraindo-parâmetros-da-url-path-parameters-ou-parâmetros-de-caminho)
   - [Extraindo parâmetros do corpo da requisição (Body Parameters ou Parâmetros do corpo)](#extraindo-parâmetros-do-corpo-da-requisição-body-parameters-ou-parâmetros-do-corpo)
   - [Extraindo parâmetros da query string (Query Parameters ou Parâmetros de consulta)](#extraindo-parâmetros-da-query-string-query-parameters-ou-parâmetros-de-consulta)
-  - [O objeto response](#o-objeto-response)
+  - [O objeto response (res)](#o-objeto-response-res)
 - [Demonstração da extensão Thunder Client](#demonstração-da-extensão-thunder-client)
 - [Exercícios](#exercícios)
 
@@ -153,7 +154,7 @@ app.get('/hello', (req, res) => {
 
 ### O objeto response (res)
 
-O objeto response é o objeto que é retornado pela função de callback de uma rota. Ele possui métodos para enviar a resposta para o cliente.
+O objeto response (res) é o objeto que é retornado pela função de callback de uma rota. Ele possui métodos para enviar a resposta para o cliente.
 
 Exemplo:
 
