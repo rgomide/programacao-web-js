@@ -7,7 +7,18 @@ app.use(express.json());
 
 // Rota raiz
 app.get('/', (req, res) => {
-  res.send('Hello World');
+  res.send('Bem vindo!!!');
+});
+
+// Rota para Hello World com query string
+app.get('/hello', (req, res) => {
+  let nome = '';
+
+  if (req.query.nome) {
+    nome = req.query.nome;
+  }
+
+  res.send(`Hello World ${nome}`);
 });
 
 // Rota para listar todos os alunos

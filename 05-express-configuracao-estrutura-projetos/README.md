@@ -20,7 +20,7 @@ O Express é um framework para criar servidores HTTP em Node.js. Ele é muito po
 
 ## O framework Express
 
-Neste projeto, o framework Express foi utilizado para configurar o servidor HTTP e definir as rotas para as funcionalidades da API. O arquivo [index.js](./src/index.js) é o ponto de entrada da aplicação.
+Neste projeto, o framework Express foi utilizado para configurar o servidor HTTP e definir as rotas para as funcionalidades da API. O arquivo [src/index.js](./src/index.js) é o ponto de entrada da aplicação.
 
 Nesse arquivo, foram configuradas as seguintes funcionalidades:
 
@@ -63,6 +63,8 @@ A partir da configuração do servidor HTTP e das rotas para as funcionalidades 
 
 As rotas da aplicação são:
 
+- `GET /`: Retorna uma mensagem de boas vindas.
+- `GET /hello`: Retorna uma mensagem de Hello World.
 - `GET /alunos`: Lista todos os alunos.
 - `GET /alunos/:id`: Busca um aluno pelo ID.
 - `POST /alunos`: Cria um novo aluno.
@@ -97,11 +99,107 @@ app.post('/alunos', async (req, res) => {
 });
 ```
 
+### Extraindo parâmetros da query string (Query Parameters ou Parâmetros de consulta)
+
+Os parâmetros de consulta são extraídos da query string com o método `req.query`.
+
+Exemplo:
+
+```bash
+GET http://localhost:3000/alunos?nome=João&sobrenome=da Silva
+```
+
+```javascript
+app.get('/hello', (req, res) => {
+  let nome = '';
+
+  if (req.query.nome) {
+    nome = req.query.nome;
+  }
+
+  res.send(`Hello World ${nome}`);
+});
+```
+
 ## Demonstração da extensão Thunder Client
 
 A extensão Thunder Client é uma ferramenta poderosa para testar APIs. Ela permite testar as rotas da aplicação com facilidade e rapidez. O vídeo abaixo demonstra como utilizar a extensão para testar as rotas da aplicação.
 
 [![Demonstração da extensão Thunder Client](https://img.youtube.com/vi/Ba6VEv1BvNI/0.jpg)](https://www.youtube.com/watch?v=Ba6VEv1BvNI)
+
+## Exercícios
+
+### Exercício 1 - Criar uma rota para as operações aritméticas
+
+Crie rotas para as operações aritméticas de soma, subtração, multiplicação e divisão. As rotas devem receber três parâmetros: dois números e a operação matemática. As rotas devem retornar o resultado da operação.
+
+Exemplo de rota para a operação de soma:
+
+```bash
+GET http://localhost:3000/operacoes/somar/10/20
+```
+
+Resposta:
+
+```json
+{ "resultado": 30 }
+```
+
+### Exercício 2 - Criar uma rota que recebe um objeto JSON e retorna o nome completo do usuário
+
+Crie uma rota que recebe um objeto JSON com os atributos `nome` e `sobrenome` e retorna o nome completo do usuário.
+
+Exemplo de rota:
+
+```bash
+POST http://localhost:3000/nome-completo
+```
+
+Corpo da requisição:
+
+```json
+{ "nome": "João", "sobrenome": "da Silva" }
+```
+
+Resposta:
+
+```json
+{ "nomeCompleto": "João da Silva" }
+```
+
+### Exercício 3 - Criar uma rota para verificar se um número é par ou ímpar
+
+Crie uma rota que recebe um número como parâmetro de caminho e retorna se o número é par ou ímpar.
+
+Exemplo de rota:
+
+```bash
+GET http://localhost:3000/numeros/verificar/7
+```
+
+Resposta:
+
+```json
+{ "numero": 7, "resultado": "ímpar" }
+```
+
+Exemplo de implementação:
+
+### Exercício 4 - Criar uma rota para inverter uma string
+
+Crie uma rota que recebe uma string como parâmetro de consulta (query parameter) e retorna a string invertida.
+
+Exemplo de rota:
+
+```bash
+GET http://localhost:3000/texto/inverter?texto=javascript
+```
+
+Resposta:
+
+```json
+{ "original": "javascript", "invertido": "tpircsavaj" }
+```
 
 ## Referências
 
