@@ -201,6 +201,22 @@ Resposta:
 { "original": "javascript", "invertido": "tpircsavaj" }
 ```
 
+### Exercício 5 - Cálculo da equação do segundo grau
+
+Crie uma rota que recebe três parâmetros: `a`, `b` e `c` da equação do segundo grau e retorna o valor do delta e as raízes.
+
+Exemplo de rota:
+
+```bash
+GET http://localhost:3000/equacao-segundo-grau/2/4/-6
+```
+
+Resposta:
+
+```json
+{ "delta": 64, "raizes": [1, -3] }
+```
+
 ## Referências
 
 - [Express.js](https://expressjs.com/)
