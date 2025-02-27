@@ -8,6 +8,8 @@
 - Integração com PostgreSQL
   - [Configuração e uso da biblioteca `pg` com Node.js](./03-conexao-com-banco-de-dados)
   - [Projeto de Manipulação de Dados com Node.js e Knex](./04-manipulacao-de-dados)
+- Node.js e Express
+  - [Express.js: configuração e estrutura de projetos](./05-express-configuracao-estrutura-projetos/)
 
 ## Problemas comuns
 
