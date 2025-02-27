@@ -12,6 +12,7 @@
   - [Extraindo parâmetros da URL (Path Parameters ou Parâmetros de caminho)](#extraindo-parâmetros-da-url-path-parameters-ou-parâmetros-de-caminho)
   - [Extraindo parâmetros do corpo da requisição (Body Parameters ou Parâmetros do corpo)](#extraindo-parâmetros-do-corpo-da-requisição-body-parameters-ou-parâmetros-do-corpo)
   - [Extraindo parâmetros da query string (Query Parameters ou Parâmetros de consulta)](#extraindo-parâmetros-da-query-string-query-parameters-ou-parâmetros-de-consulta)
+  - [O objeto response](#o-objeto-response)
 - [Demonstração da extensão Thunder Client](#demonstração-da-extensão-thunder-client)
 - [Exercícios](#exercícios)
 
@@ -116,7 +117,7 @@ app.post('/alunos', async (req, res) => {
 
 Os parâmetros de consulta são extraídos da query string com o método `req.query`.
 
-Exemplo:
+Exemplo com a rota de busca de alunos:
 
 ```bash
 GET http://localhost:3000/alunos?nome=João&sobrenome=da Silva
@@ -213,8 +214,6 @@ Resposta:
 ```json
 { "numero": 7, "resultado": "ímpar" }
 ```
-
-Exemplo de implementação:
 
 ### Exercício 4 - Criar uma rota para inverter uma string
 
