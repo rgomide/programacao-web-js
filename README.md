@@ -7,6 +7,7 @@
   - [Programação assíncrona em JavaScript: Promises, async/await](./02-programacao-assincrona)
 - Integração com PostgreSQL
   - [Configuração e uso da biblioteca `pg` com Node.js](./03-conexao-com-banco-de-dados)
+  - [Projeto de Manipulação de Dados com Node.js e Knex](./04-manipulacao-de-dados)
 
 ## Problemas comuns
 
