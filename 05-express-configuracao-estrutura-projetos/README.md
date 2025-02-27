@@ -134,6 +134,24 @@ app.get('/hello', (req, res) => {
 });
 ```
 
+### O objeto response
+
+O objeto response é o objeto que é retornado pela função de callback de uma rota. Ele possui métodos para enviar a resposta para o cliente.
+
+Exemplo:
+
+```javascript
+res.json({ message: 'Hello World' }); // Envia uma resposta JSON para o cliente
+
+// ...
+
+res.send('Hello World'); // Envia uma resposta de texto para o cliente
+
+// ...
+
+res.status(201).json({ message: 'Aluno criado com sucesso' }); // Envia uma resposta JSON com status 201 para o cliente
+```
+
 ## Demonstração da extensão Thunder Client
 
 A extensão Thunder Client é uma ferramenta poderosa para testar APIs. Ela permite testar as rotas da aplicação com facilidade e rapidez. O vídeo abaixo demonstra como utilizar a extensão para testar as rotas da aplicação.
