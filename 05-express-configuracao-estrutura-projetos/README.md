@@ -8,7 +8,7 @@ O Express é um framework para criar servidores HTTP em Node.js. Ele é muito po
 
 ## Estrutura de projeto
  
- Nesse projeto, vamos criar uma API para gerenciar a tabela `aluno`. Do inglês API significa Interface de Programação de Aplicações. As APIs possuem a finalidade de permitir que diferentes softwares se comuniquem entre si.
+ Nesse projeto, vamos criar uma API para gerenciar a tabela `aluno`. Do inglês API significa Application Programming Interface (Interface de Programação de Aplicações). As APIs possuem a finalidade de permitir que diferentes softwares se comuniquem entre si.
 
  A API deste projeto tem as seguintes funcionalidades:
 
