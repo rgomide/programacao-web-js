@@ -4,21 +4,26 @@ const arrayToJson = (users) => {
   })
 }
 
-const toJson = (user) => {
-  let email = ''
+const maskWithAsterisks = (value, charsToIgnore, positionsToIgnore) => {
+  let asterisks = ''
 
-  let utilizarAsterisco = true
-  
-  for (let i = 0; i < user.email.length; i++) {
-    if (utilizarAsterisco) {
-      email += '*'
-      if (user.email[i] == '@') {
-        utilizarAsterisco = false
-      }
+  for (let i = 0; i < value.length; i++) {
+    if (charsToIgnore?.includes(value[i]) || positionsToIgnore?.includes(i)) {
+      asterisks += value[i]
     } else {
-      email += user.email[i]
+      asterisks += '*'
     }
   }
+
+  return asterisks
+}
+
+const toJson = (user) => {
+  const email = maskWithAsterisks(
+    user.email,
+    ['@', '.'],
+    [0, user.email?.length - 1]
+  )
 
   const userView = {
     id: user.id,
