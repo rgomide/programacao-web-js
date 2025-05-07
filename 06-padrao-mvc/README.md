@@ -66,7 +66,8 @@ Este arquivo gerencia as requisições relacionadas aos usuários.
 3. O Controller solicita dados ao Model
 4. O Model processa os dados e retorna ao Controller
 5. O Controller envia os dados para a View
-6. A View formata os dados e apresenta ao usuário
+6. A View formata os dados e retorna ao Controller
+7. O Controller envia os dados para o usuário
 
 ```mermaid
 graph TD
