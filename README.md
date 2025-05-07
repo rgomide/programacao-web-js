@@ -10,6 +10,7 @@
   - [Projeto de Manipulação de Dados com Node.js e Knex](./04-manipulacao-de-dados)
 - Node.js e Express
   - [Express.js: configuração e estrutura de projetos](./05-express-configuracao-estrutura-projetos/)
+  - [Padrão Movel View Controller (MVC)](./06-padrao-mvc/)
 
 ## Problemas comuns
 
