@@ -11,6 +11,7 @@
 - Node.js e Express
   - [Express.js: configuração e estrutura de projetos](./05-express-configuracao-estrutura-projetos/)
   - [Padrão Movel View Controller (MVC)](./06-padrao-mvc/)
+  - [Configuração de CORS](./07-cors/)
 
 ## Problemas comuns
 
