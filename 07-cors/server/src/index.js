@@ -3,7 +3,7 @@ const app = express();
 const cors = require('cors');
 
 // Middleware para permitir requisições de outros domínios
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:8081' }));
 // Middleware para converter o corpo das requisições como JSON
 app.use(express.json());
 
