@@ -259,7 +259,7 @@ console.log(`Idade: ${process.env.AGE}`);
 
 ### Exercício 1: Gerador de Senhas
 1. Instale o pacote [generate-password](https://www.npmjs.com/package/generate-password) usando npm
-2. Crie um arquivo `passwordGenerator.js`
+2. Crie um arquivo `geradorDeSenhas.js`
 3. Implemente um programa que:
    - Solicite ao usuário o comprimento desejado da senha
    - Pergunte se deve incluir números
@@ -268,8 +268,8 @@ console.log(`Idade: ${process.env.AGE}`);
 4. Adicione um script no `package.json` para executar o gerador de senhas
 
 ### Exercício 2: Jogo de Adivinhação com Dicas
-1. Instale o pacote [chalk](https://www.npmjs.com/package/chalk) usando npm (para colorir o output no terminal)
-2. Crie um arquivo `numberGuessing.js`
+1. Instale o pacote [chalk](https://www.npmjs.com/package/chalk) usando npm (para colorir o output no terminal). Utilize a documentação da biblioteca e o arquivo [chalkTest.js](exercicios-resolvidos/chalkTest.js) como referência de uso.
+2. Crie um arquivo `adivinhacao.js`
 3. Implemente um jogo que:
    - Gere um número aleatório entre 1 e 100
    - Permita que o usuário faça tentativas
@@ -284,8 +284,9 @@ console.log(`Idade: ${process.env.AGE}`);
 ### Exercício 3: Jogo da Forca
 1. Instale os pacotes:
    - [chalk](https://www.npmjs.com/package/chalk) para cores no terminal
-   - [figlet](https://www.npmjs.com/package/figlet) para arte ASCII
-2. Crie um arquivo `hangman.js`
+   - [chalklet](https://www.npmjs.com/package/chalklet) para arte ASCII
+     - Utilize a documentação da biblioteca e o arquivo [chalkletTest.js](exercicios-resolvidos/chalkletTest.js) como referência de uso.
+2. Crie um arquivo `jogoDaForca.js`
 3. Implemente o clássico jogo da forca que:
    - Tenha uma lista predefinida de palavras por categoria
    - Permita ao jogador escolher a categoria
