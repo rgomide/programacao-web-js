@@ -191,6 +191,12 @@ async function buscarDadosCompletos() {
 ### 2. Validador de Cadastro
 **Objetivo**: Criar um sistema de validação de dados de usuário.
 
+**Formato da função**:
+- **Entrada**: objeto `{ nome: string, idade: number, email: string }`
+- **Retorno**: `Promise` que resolve com:
+  - Sucesso: `{ valido: true, dados: { nome, idade, email } }`
+  - Falha: `{ valido: false, erros: string[] }` (array com mensagens específicas por campo)
+
 **Instruções**:
 1. Valide um objeto com: nome, idade e email
 2. Implemente as seguintes regras:
@@ -198,7 +204,7 @@ async function buscarDadosCompletos() {
    - Idade: número positivo
    - Email: deve conter @ e .
 3. Use `async/await`
-4. Retorne mensagens de erro específicas para cada validação
+4. Inclua mensagens de erro específicas no array `erros` (ex.: `"Nome deve ter no mínimo 3 caracteres"`, `"Idade deve ser um número positivo"`, `"Email inválido"`)
 
 ### 3. Verificador de Email
 **Objetivo**: Praticar encadeamento de Promises e validações sequenciais.
@@ -219,7 +225,8 @@ async function buscarDadosCompletos() {
 **Instruções**:
 1. Crie uma função que recebe um array de CEPs
 2. A função deve:
-   - Buscar todos os CEPs simultaneamente
+   - Buscar todos os CEPs simultaneamente.
+     - Utilize `fetch` para buscar o endereço de cada CEP a partir da API `https://brasilapi.com.br/api/cep/v2/{cep}`.
    - Utilizar `Promise.all()`
    - Tratar erros adequadamente (ex.: CEP inválido ou Endereço não encontrado)
 3. Retornar um array com todos os endereços encontrados
