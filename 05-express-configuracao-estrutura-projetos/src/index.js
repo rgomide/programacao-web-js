@@ -1,9 +1,11 @@
 const express = require('express');
 const app = express();
+const cors = require('cors')
 const alunoModel = require('./model/alunoModel');
 
 // Middleware para parsear o corpo das requisições como JSON
 app.use(express.json());
+app.use(cors());
 
 // Rota raiz
 app.get('/', (req, res) => {
