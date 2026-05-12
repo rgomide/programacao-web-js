@@ -15,6 +15,11 @@ async function findByAluno(idAluno) {
   return db('endereco').where('id_aluno', idAluno);
 }
 
+// Buscar endereço(s) por rua e número (vários critérios no WHERE → AND)
+async function findByRuaAndNumero(rua, numero) {
+  return db('endereco').where({ rua, numero }).select('*');
+}
+
 // Criar novo endereço
 async function create(endereco) {
   const enderecos = await db('endereco').insert(endereco).returning('*');
@@ -36,6 +41,7 @@ module.exports = {
   findAll,
   findById,
   findByAluno,
+  findByRuaAndNumero,
   create,
   update,
   remove

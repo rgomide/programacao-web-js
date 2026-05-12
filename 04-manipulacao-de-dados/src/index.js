@@ -36,6 +36,13 @@ async function main() {
     console.log('\nNovo endereço criado:');
     console.log(JSON.stringify(novoEndereco, null, 2));
 
+    const enderecosPorRuaNumero = await Endereco.findByRuaAndNumero(
+      'Rua das Palmeiras',
+      1000
+    );
+    console.log('\nBusca por rua AND número (dois parâmetros):');
+    console.log(JSON.stringify(enderecosPorRuaNumero, null, 2));
+
     // 4. Matricular o aluno no curso
     const novaMatricula = await Matricula.create({
       id_aluno: novoAluno.id,

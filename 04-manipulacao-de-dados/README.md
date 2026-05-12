@@ -1,24 +1,36 @@
-# Projeto de Manipulação de Dados com Node.js e Knex
+# Manipulação de dados com Node.js, Knex.js e PostgreSQL
 
-Este projeto demonstra como criar uma aplicação para manipulação de dados em um banco de dados PostgreSQL utilizando Node.js e Knex.js. É um material didático para iniciantes em programação que desejam aprender sobre conexão com banco de dados e operações CRUD (Create, Read, Update, Delete).
+Material didático para quem está começando a ligar uma aplicação **Node.js** a um banco **PostgreSQL**. O foco é entender **conexão**, **modelos** que encapsulam o acesso aos dados e operações **CRUD** (Create, Read, Update, Delete) usando o **Knex.js** como *query builder* — ou seja, montar consultas em JavaScript com métodos encadeados, sem escrever SQL na mão em todo o código.
+
+## Pré-requisitos
+
+- [Node.js](https://nodejs.org/) (versão com suporte a `node --env-file`, usada no script `npm run start`)
+- [PostgreSQL](https://www.postgresql.org/) instalado e em execução
+- Noções básicas de JavaScript (`async`/`await`, módulos `require`/`exports`)
 
 ## O que é o Knex.js?
 
-[Knex.js](http://knexjs.org/) é um query builder (construtor de consultas) para Node.js. Ele permite escrever consultas SQL de forma programática, usando JavaScript, sem precisar escrever SQL diretamente. Algumas vantagens do Knex:
+[Knex.js](https://knexjs.org/) é um *query builder* para Node.js: você descreve consultas com uma API em JavaScript (`.select()`, `.where()`, `.insert()`, etc.). O Knex gera SQL parametrizado para o banco configurado, o que ajuda na **organização do código** e reduz risco de **SQL injection** quando os valores vêm de variáveis (use sempre os métodos do builder em vez de concatenar strings SQL com dados do usuário).
 
-- **Sintaxe intuitiva**: Escreva consultas usando métodos encadeados (chainable methods)
-- **Suporte a múltiplos bancos**: MySQL, PostgreSQL, SQLite, Oracle, etc.
-- **Migrações**: Ferramentas para controle de versão do banco de dados
-- **Segurança**: Proteção contra ataques de SQL Injection
+**Resumo do que o Knex oferece:**
 
-## Estrutura do Banco de Dados
+- Sintaxe encadeada e legível para consultas
+- Suporte a vários bancos (PostgreSQL, MySQL, SQLite, entre outros)
+- Migrações e seeds (evolução controlada do esquema — não usados neste projeto mínimo, mas importantes em projetos reais)
+- *Pool* de conexões configurável (`min` / `max` em `src/db/index.js`)
 
-Este projeto utiliza um modelo de dados de uma escola, com as seguintes tabelas:
+## Modelo de dados (escola)
 
-- **aluno**: Armazena informações dos alunos
-- **endereco**: Guarda os endereços dos alunos (relacionamento 1:N com aluno)
-- **curso**: Contém os cursos oferecidos pela escola
-- **matricula**: Tabela de relacionamento entre alunos e cursos (N:N)
+O exemplo modela uma escola com relacionamentos típicos:
+
+| Tabela      | Papel |
+|------------|--------|
+| **aluno**  | Cadastro de alunos |
+| **endereco** | Endereços por aluno (**1:N** — um aluno, vários endereços) |
+| **curso**  | Cursos ofertados |
+| **matricula** | Associação aluno ↔ curso (**N:N**), com data da matrícula |
+
+A tabela `matricula` usa **chave primária composta** (`id_aluno`, `id_curso`): um par aluno/curso não se repete.
 
 ```mermaid
 erDiagram
@@ -32,7 +44,7 @@ erDiagram
         varchar(255) email "not null"
         date data_nascimento "not null"
     }
-    
+
     ENDERECO {
         int id PK "serial"
         int id_aluno FK "not null, references aluno(id)"
@@ -41,14 +53,14 @@ erDiagram
         varchar(255) cidade "not null"
         varchar(255) estado "not null"
     }
-    
+
     CURSO {
         int id PK "serial"
         varchar(255) nome "not null"
         text descricao "not null"
         int carga_horaria "not null"
     }
-    
+
     MATRICULA {
         int id_aluno PK,FK "references aluno(id)"
         int id_curso PK,FK "references curso(id)"
@@ -56,44 +68,63 @@ erDiagram
     }
 ```
 
-## Como Executar o Projeto
+## Como executar o projeto
 
-1. Clone o repositório
+1. Clone o repositório (ou use esta pasta dentro do monorepositório).
 2. Instale as dependências: `npm install`
-3. Configure o arquivo [.env](./.env) com as credenciais do banco de dados
-4. Crie um banco de dados com o nome `escola`
-5. Execute o script [script.sql](./db/script.sql) para criar as tabelas
-6. Execute o projeto: `npm run start` ou `node --env-file=.env src/index.js`
+3. Crie um banco chamado `escola` no PostgreSQL.
+4. Copie o exemplo de variáveis de ambiente e ajuste usuário, senha e porta:
 
-## Estrutura do Projeto
+   ```bash
+   cp .env.example .env
+   ```
+
+   Edite `.env` com `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD` e `DB_NAME` (por exemplo `escola`).
+
+5. Crie as tabelas executando o script [db/script.sql](./db/script.sql) no banco `escola` (via `psql`, cliente gráfico ou extensão da IDE).
+6. Rode a aplicação de demonstração:
+
+   ```bash
+   npm run start
+   ```
+
+   Equivale a: `node --env-file=.env src/index.js` — o Node carrega `.env` antes de executar `src/index.js`.
+
+O arquivo `src/index.js` cria registros de teste, lista dados, atualiza um aluno, remove o aluno e, no `finally`, chama **`db.destroy()`** para encerrar o *pool* de conexões. Em scripts únicos isso evita deixar o processo pendurado; em um servidor HTTP o encerramento costuma ocorrer no *shutdown* da aplicação.
+
+## Estrutura de pastas
 
 ```
 projeto/
-├── .env                 # Arquivo com variáveis de ambiente
+├── .env                 # Credenciais e parâmetros do banco (não versionar segredos)
+├── .env.example         # Modelo de variáveis para outros desenvolvedores
+├── assets/              # Imagens usadas nos slides (Marp)
 ├── db/
-│   └── script.sql       # Script SQL para criação das tabelas
+│   └── script.sql       # DDL: criação das tabelas
 ├── src/
 │   ├── db/
-│   │   └── index.js     # Inicialização da conexão com o banco
-│   ├── model/           # Módulos para manipulação de dados
-│   │   ├── index.js     # Exporta todos os modelos
-│   │   ├── aluno.js     # Operações CRUD para alunos
-│   │   ├── endereco.js  # Operações CRUD para endereços
-│   │   ├── curso.js     # Operações CRUD para cursos
-│   │   └── matricula.js # Operações CRUD para matrículas
-│   └── index.js         # Ponto de entrada da aplicação
-└── package.json         # Dependências e scripts do projeto
+│   │   └── index.js     # Instância do Knex (configuração + export)
+│   ├── model/           # CRUD por entidade
+│   │   ├── index.js
+│   │   ├── aluno.js
+│   │   ├── endereco.js
+│   │   ├── curso.js
+│   │   └── matricula.js
+│   └── index.js         # Demonstração das operações
+├── 04-manipulacao-de-dados.md
+├── package.json
+└── README.md
 ```
 
-## Configuração do Banco de Dados
+## Conexão com o banco (`src/db/index.js`)
 
-O arquivo `src/db/index.js` contém a configuração de conexão com o banco de dados:
+Um único módulo cria a instância do Knex e a exporta para os modelos:
 
 ```javascript
 const knex = require('knex');
 
 const config = {
-  client: 'pg',  // Usando PostgreSQL
+  client: 'pg',
   connection: {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
@@ -103,189 +134,110 @@ const config = {
   },
   pool: {
     min: 2,
-    max: 10
+    max: 10,
   },
 };
 
-// Inicializa a conexão com o banco de dados
 const db = knex(config);
 
 module.exports = db;
 ```
 
-As variáveis de ambiente são carregadas do arquivo [.env](./.env) quando executamos o projeto com `node --env-file=.env src/index.js` ou `npm run start`.
+As variáveis vêm de `.env` quando você usa `npm run start` ou `node --env-file=.env`.
 
-## Inicialização da Conexão
+## Modelos e CRUD
 
-O arquivo `src/db/index.js` não apenas configura, mas também inicializa a conexão com o banco de dados e a exporta para ser usada pelos modelos:
+Cada arquivo em `src/model/` concentra as operações de uma tabela. Padrão comum:
 
-```javascript
-const knex = require('knex');
-const config = { /* configuração */ };
+- **Create** — `insert(...).returning(...)`
+- **Read** — `select`, `where`, `first`, *joins* quando necessário
+- **Update** — `where(...).update(...).returning(...)`
+- **Delete** — `where(...).del()`
 
-// Inicializa a conexão
-const db = knex(config);
+No PostgreSQL, `.returning('*')` (ou colunas específicas) devolve a linha afetada na mesma chamada — útil logo após `insert` ou `update`.
 
-module.exports = db;
-```
-
-## Modelos de Dados
-
-Os modelos são responsáveis por encapsular a lógica de acesso ao banco de dados. Cada modelo implementa operações CRUD:
-
-- **C**reate: Criar novos registros
-- **R**ead: Buscar/ler registros existentes
-- **U**pdate: Atualizar registros existentes
-- **D**elete: Excluir registros
-
-### Exemplo: Modelo de Aluno
+### Exemplo (trecho de `aluno.js`)
 
 ```javascript
 const db = require('../db');
 
-// Buscar todos os alunos
 async function findAll() {
   return db('aluno').select('*');
 }
 
-// Buscar aluno por ID
 async function findById(id) {
   return db('aluno').where('id', id).first();
 }
 
-// Criar novo aluno
 async function create(aluno) {
   const alunos = await db('aluno').insert(aluno).returning('*');
   return alunos[0];
 }
 
-// Atualizar aluno
 async function update(id, aluno) {
   const alunos = await db('aluno').where({ id }).update(aluno).returning('*');
   return alunos[0];
 }
 
-// Excluir aluno
 async function remove(id) {
   return db('aluno').where({ id }).del();
 }
 
-module.exports = {
-  findAll,
-  findById,
-  create,
-  update,
-  remove
-};
+module.exports = { findAll, findById, create, update, remove };
 ```
 
-## Consultas Básicas com Knex
+O projeto também mostra **dados relacionados** de duas formas: duas consultas (`findWithEnderecos` em `aluno.js`) ou uma consulta com `join` (`findWithAlunos` em `curso.js`).
 
-### Selecionar todos os registros
+### Filtro com mais de um critério (`AND`)
 
-```javascript
-// SELECT * FROM aluno
-db('aluno').select('*')
-```
-
-### Filtrar registros
+Para combinar colunas no mesmo `WHERE` (equivalente a `rua = ? AND numero = ?`), passe um objeto em `.where({ ... })` ou encadeie `.where(...)` mais de uma vez. O modelo `Endereco` expõe `findByRuaAndNumero(rua, numero)` em `src/model/endereco.js`:
 
 ```javascript
-// SELECT * FROM aluno WHERE id = 1
-db('aluno').where('id', 1)
-```
-
-### Inserir registros
-
-```javascript
-// INSERT INTO aluno (nome, email, data_nascimento) VALUES ('João', 'joao@email.com', '1995-05-15') RETURNING *
-db('aluno').insert({
-  nome: 'João',
-  email: 'joao@email.com',
-  data_nascimento: '1995-05-15'
-}).returning('*')
-```
-
-### Atualizar registros
-
-```javascript
-// UPDATE aluno SET nome = 'João Silva' WHERE id = 1 RETURNING *
-db('aluno').where('id', 1).update({ nome: 'João Silva' }).returning('*')
-```
-
-### Excluir registros
-
-```javascript
-// DELETE FROM aluno WHERE id = 1
-db('aluno').where('id', 1).del()
-```
-
-## Consultas com Relacionamentos
-
-### Join simples
-
-```javascript
-// Buscar alunos matriculados em um curso
-db('aluno')
-  .select('aluno.*', 'matricula.data_matricula')
-  .join('matricula', 'aluno.id', 'matricula.id_aluno')
-  .where('matricula.id_curso', 1)
-```
-
-### Usando múltiplos joins
-
-```javascript
-// Buscar matrículas com dados de aluno e curso
-db('matricula')
-  .select(
-    'matricula.*',
-    'aluno.nome as nome_aluno',
-    'curso.nome as nome_curso'
-  )
-  .join('aluno', 'matricula.id_aluno', 'aluno.id')
-  .join('curso', 'matricula.id_curso', 'curso.id')
-```
-
-## Trabalhando com Dados Relacionados
-
-Para buscar dados relacionados, podemos fazer:
-
-1. **Múltiplas consultas**: Buscar entidade principal e depois buscar relacionamentos
-2. **Joins**: Buscar tudo em uma única consulta e processar os resultados
-
-### Exemplo: Buscando aluno com seus endereços
-
-```javascript
-// Buscar aluno com seus endereços
-async function findWithEnderecos(id) {
-  // Primeiro busca o aluno
-  const aluno = await db('aluno').where('id', id).first();
-  if (!aluno) return null;
-  
-  // Depois busca os endereços relacionados
-  const enderecos = await db('endereco').where('id_aluno', id);
-  
-  // Retorna o aluno com seus endereços
-  return { ...aluno, enderecos };
+async function findByRuaAndNumero(rua, numero) {
+  return db('endereco').where({ rua, numero }).select('*');
 }
 ```
-## Boas Práticas
 
-1. **Separação de responsabilidades**: Cada modelo cuida apenas da sua entidade
-2. **Abstração do acesso a dados**: Os detalhes de como os dados são armazenados ficam encapsulados nos modelos
-3. **Controle de conexão**: Abrir a conexão no início e fechá-la no final do programa
-4. **Tratamento de erros**: Sempre use try/catch ao trabalhar com operações assíncronas
-5. **Retornar dados completos**: Após criar ou atualizar, retorne o registro completo
+O script `src/index.js` chama essa função após criar o endereço de exemplo (`'Rua das Palmeiras'`, `1000`). A lista retornada pode ter mais de uma linha se existirem vários registros com a mesma rua e número em contextos diferentes (por exemplo, outro aluno); em geral você refina com mais colunas (`id_aluno`, `cidade`, etc.) se precisar de unicidade.
 
-## Desafios para Praticar
+## Consultas Knex × SQL mental
 
-1. Adicione validação de dados antes de inserir ou atualizar registros
-2. Implemente paginação nas consultas que retornam muitos registros
-3. Adicione ordenação nos resultados (ex: ordenar alunos por nome)
-4. Implemente busca por texto (ex: buscar alunos por parte do nome ou email)
-5. Crie uma API REST para expor as operações CRUD
+| Ideia | Knex (exemplo) |
+|--------|------------------|
+| `SELECT * FROM aluno` | `db('aluno').select('*')` |
+| Filtrar por id | `db('aluno').where('id', id).first()` |
+| Filtrar por **rua e número** | `db('endereco').where({ rua, numero }).select('*')` |
+| Inserir | `db('aluno').insert({ ... }).returning('*')` |
+| Atualizar | `db('aluno').where({ id }).update({ ... }).returning('*')` |
+| Apagar | `db('aluno').where({ id }).del()` |
+| Junção | `.join('matricula', 'aluno.id', 'matricula.id_aluno')` |
 
-## Recursos Adicionais
+## Boas práticas (resumo)
 
-- [Documentação do Knex.js](http://knexjs.org/)
-- [PostgreSQL](https://www.postgresql.org/)
+1. **Um lugar para a configuração do Knex** — evita duplicar credenciais.
+2. **Modelos por entidade** — facilita testar e evoluir o código.
+3. **`try` / `catch` / `finally`** em rotas ou scripts que falam com o banco; em `finally`, `await db.destroy()` quando o processo deve terminar.
+4. **Validar dados de entrada** antes de persistir (o exemplo é mínimo; em produção use validação explícita).
+5. **Respeitar integridade referencial** — ordem de exclusão e *foreign keys* (ex.: matrículas/endereços ligados a um aluno).
+
+## Problemas comuns
+
+| Sintoma | O que verificar |
+|--------|------------------|
+| `ECONNREFUSED` | PostgreSQL ligado? `DB_HOST` e `DB_PORT` corretos? |
+| autenticação falhou | `DB_USER` / `DB_PASSWORD` no `.env` |
+| relação/tabela não existe | Script `db/script.sql` executado no banco certo (`DB_NAME`) |
+| processo não encerra | Chamar `await db.destroy()` ao final de scripts (como em `src/index.js`) |
+
+## Desafios sugeridos
+
+1. Validar campos obrigatórios antes de `insert`/`update`.
+2. Paginar listas (`limit` / `offset` ou equivalente).
+3. Ordenar resultados (ex.: `orderBy('nome')`).
+4. Busca parcial por nome ou e-mail (`whereILike` no PostgreSQL).
+5. Expor as operações via uma API REST (Express ou similar).
+
+## Referências
+
+- [Documentação do Knex.js](https://knexjs.org/)
+- [PostgreSQL — documentação](https://www.postgresql.org/docs/)
