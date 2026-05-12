@@ -38,6 +38,43 @@ style: |
   pre {
     font-size: 0.78em;
   }
+  .stack-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 1rem;
+  }
+  .stack-row figure {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 24%;
+    margin: 0;
+    padding: 0 0.15rem;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  .stack-row figure img {
+    display: block;
+    margin: 0 auto;
+    max-height: 64px;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+  .stack-row figcaption {
+    margin-top: 0.25rem;
+    font-size: 0.65em;
+    line-height: 1.2;
+    word-break: break-word;
+  }
 ---
 
 <!-- paginate: false -->
@@ -56,6 +93,7 @@ style: |
 <div style="margin-top: 1.2rem; display: flex; align-items: center; gap: 1.5rem; justify-content: flex-end; padding-right: 8%;">
   <img src="./assets/nodejs-logo.svg" alt="Node.js" height="72" />
   <img src="./assets/javascript-logo.png" alt="JavaScript" width="72" height="72" />
+  <img src="./assets/knex-logo.svg" alt="JavaScript" width="72" height="72" />
   <img src="./assets/postgresql-elephant.png" alt="PostgreSQL" width="72" height="72" />
 </div>
 
@@ -68,7 +106,7 @@ style: |
 - Relacionar **persistência** em banco com código **Node.js**
 - Configurar o **Knex.js** como *query builder* para **PostgreSQL**
 - Reconhecer o padrão **CRUD** em módulos de **modelo**
-- Ler e escrever consultas com **`.select`**, **`.where`** (um ou **vários** critérios), **`.insert`**, **`.join`**
+- Ler e escrever consultas com **`.select`**, **`.where`** (um ou **vários** critérios), **`.insert`**, **`.join`**, **`.limit`** e **`.offset`**
 - Saber **encerrar o pool** de conexões com **`db.destroy()`** em scripts
 
 ---
@@ -85,22 +123,26 @@ style: |
 
 ## Stack
 
-<div style="display: flex; align-items: center; justify-content: space-around; margin-top: 2rem; flex-wrap: wrap; gap: 1rem;">
-  <figure style="text-align: center; margin: 0;">
-    <img src="./assets/nodejs-logo.svg" height="100" alt="Node.js" />
+<div class="stack-row">
+  <figure>
+    <img src="./assets/nodejs-logo.svg" alt="Node.js" />
     <figcaption><small>Runtime Node.js</small></figcaption>
   </figure>
-  <figure style="text-align: center; margin: 0;">
-    <img src="./assets/javascript-logo.png" width="100" height="100" alt="JavaScript" />
+  <figure>
+    <img src="./assets/javascript-logo.png" alt="JavaScript" />
     <figcaption><small>Linguagem JavaScript</small></figcaption>
   </figure>
-  <figure style="text-align: center; margin: 0;">
-    <img src="./assets/postgresql-elephant.png" height="110" alt="PostgreSQL" />
+  <figure>
+    <img src="./assets/knex-logo.svg" alt="Knex.js" />
+    <figcaption><small>Knex.js</small></figcaption>
+  </figure>
+  <figure>
+    <img src="./assets/postgresql-elephant.png" alt="PostgreSQL" />
     <figcaption><small>PostgreSQL</small></figcaption>
   </figure>
 </div>
 
-**Knex.js** — camada entre seu código e o driver **`pg`**, com API uniforme e *pool* de conexões.
+>**Knex.js** — camada entre seu código e o driver **`pg`**, com API uniforme e *pool* de conexões.
 
 ---
 
@@ -213,7 +255,7 @@ async function update(id, aluno) {
 }
 ```
 
-**`returning('*')`** evita outra ida ao banco só para montar o objeto retornado.
+> **`returning('*')`** evita outra ida ao banco só para montar o objeto retornado.
 
 ---
 
@@ -225,7 +267,7 @@ async function remove(id) {
 }
 ```
 
-Atenção a **chaves estrangeiras**: pode ser preciso apagar **matrículas** e **endereços** antes do aluno, conforme as `ON DELETE` do seu esquema.
+> Atenção a **chaves estrangeiras**: pode ser preciso apagar **matrículas** e **endereços** antes do aluno, conforme as `ON DELETE` do seu esquema.
 
 ---
 
@@ -243,7 +285,9 @@ async function findWithEnderecos(id) {
 }
 ```
 
-Como em **`src/model/aluno.js`**: reutiliza **`findById`** em vez de repetir a consulta ao aluno.
+> Como em **`src/model/aluno.js`**: reutiliza **`findById`** em vez de repetir a consulta ao aluno.
+
+---
 
 ## Dados relacionados — `join`
 
@@ -279,7 +323,7 @@ const novoAluno = await Aluno.create({
 const alunoComEndereco = await Aluno.findWithEnderecos(novoAluno.id);
 ```
 
-Organização: **`src/model/`** exporta funções; **`src/index.js`** orquestra o fluxo de demonstração.
+> Organização: **`src/model/`** exporta funções; **`src/index.js`** orquestra o fluxo de demonstração.
 
 ---
 
@@ -304,6 +348,28 @@ main();
 
 ---
 
+## Paginação — `limit` e `offset`
+
+- **`limit`**: quantas linhas retornar (tamanho da “página”).
+- **`offset`**: quantas linhas **ignorar** a partir do início do resultado (já **ordenado**).
+- **Página** `p` (a partir de 1), tamanho `pageSize`: `offset = (p - 1) * pageSize`.
+
+```js
+const pageSize = 10;
+const page = 2;
+const offset = (page - 1) * pageSize;
+
+const rows = await db('aluno')
+  .select('*')
+  .orderBy('id')
+  .limit(pageSize)
+  .offset(offset);
+```
+
+> Sempre combine com **`orderBy`** estável. Em REST, `limit` e `offset` costumam vir da *query string* (ex.: `GET /alunos?limit=10&offset=0`).
+
+---
+
 ## Boas práticas (resumo)
 
 - **Um** módulo de configuração do Knex (`src/db/index.js`)
@@ -316,7 +382,7 @@ main();
 
 ## Próximos passos sugeridos
 
-- Paginação (`limit` / `offset`)
+- Contagem total e metadados de paginação (ex.: cabeçalho ou campo `total`)
 - Ordenação (`orderBy`)
 - Busca textual (`whereILike` no PostgreSQL)
 - **API REST** com Express — roteiros no [README.md](./README.md) (exercícios de implementação)

@@ -221,7 +221,35 @@ O script `src/index.js` chama essa função após criar o endereço de exemplo (
 | Atualizar                    | `db('aluno').where({ id }).update({ ... }).returning('*')` |
 | Apagar                       | `db('aluno').where({ id }).del()`                          |
 | Junção                       | `.join('matricula', 'aluno.id', 'matricula.id_aluno')`     |
+| Paginação (10 linhas, pular 20) | `db('aluno').orderBy('id').limit(10).offset(20)`        |
 
+
+### Paginação: `limit` e `offset`
+
+Em SQL, **`LIMIT n`** diz quantas linhas o banco deve **devolver**; **`OFFSET m`** **descarta** as primeiras `m` linhas do resultado ordenado antes de aplicar esse teto. Juntos servem para fatiar listas em **páginas**:
+
+- **Página 1**, 10 registros por página: `LIMIT 10` e `OFFSET 0` (não pula nada).
+- **Página 2**, mesma página de 10: `LIMIT 10` e `OFFSET 10` (pula os 10 primeiros).
+- **Página p** (contando a partir de 1), tamanho `pageSize`:  
+  `offset = (p - 1) * pageSize`, depois `LIMIT pageSize`.
+
+No **Knex**, use **`.limit(n)`** e **`.offset(m)`** no encadeamento — em geral **depois** de `.where(...)` e de **`.orderBy(...)`**, para que “pular linhas” e “cortar no tamanho da página” tenham significado estável:
+
+```javascript
+const pageSize = 10;
+const page = 2; // página 1-based
+const offset = (page - 1) * pageSize;
+
+const rows = await db('aluno')
+  .select('*')
+  .orderBy('id')
+  .limit(pageSize)
+  .offset(offset);
+```
+
+**Cuidados:** sem `ORDER BY`, a ordem das linhas não é garantida entre chamadas — paginar sem ordenação pode “embaralhar” itens entre páginas. Em APIs, **valide** `limit` e `offset` vindos do cliente (inteiros ≥ 0, `limit` com **teto**, ex. 100) para evitar consultas pesadas. No exercício do **`GET /alunos`**, esses parâmetros costumam vir de **`req.query.limit`** e **`req.query.offset`**.
+
+Equivalente mental: `SELECT * FROM aluno ORDER BY id LIMIT 10 OFFSET 20`.
 
 ## Boas práticas (resumo)
 
@@ -281,7 +309,7 @@ Ao final, você deve ter uma **API REST** funcional (JSON), com **listagens que 
 **Implementação:**
 
 - Nas rotas, chame apenas as funções de `src/model/aluno.js` (e, se precisar, estenda o modelo com funções como `findAll({ nome, email, limit, offset, orderBy })` para manter a rota fina).
-- Leia filtros com **`req.query`** (`req.query.nome`, etc.). Converta `limit`/`offset` para número com cuidado (`NaN` → ignore ou **400**).
+- Leia filtros com **`req.query`** (`req.query.nome`, etc.). Converta `limit`/`offset` para número com cuidado (`NaN` → ignore ou **400**). Veja a seção **Paginação: `limit` e `offset`** neste README para o uso no Knex e o significado de cada parâmetro.
 
 **Critérios de conclusão:**
 
