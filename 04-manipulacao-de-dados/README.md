@@ -78,12 +78,14 @@ erDiagram
 4. Edite `.env` com `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD` e `DB_NAME` (por exemplo `escola`).
 5. Crie as tabelas executando o script [db/script.sql](./db/script.sql) no banco `escola` (via `pgAdmin`, cliente gráfico ou extensão da IDE).
 6. Rode a aplicação de demonstração:
-  ```bash
+
+   ```bash
    npm run start
-  ```
+   ```
+
    Equivale a: `node --env-file=.env src/index.js` — o Node carrega `.env` antes de executar `src/index.js`.
 
-O arquivo `src/index.js` cria registros de teste, lista dados, atualiza um aluno, remove o aluno e, no `finally`, chama `**db.destroy()**` para encerrar o *pool* de conexões. Em scripts únicos isso evita deixar o processo pendurado; em um servidor HTTP o encerramento costuma ocorrer no *shutdown* da aplicação.
+O arquivo `src/index.js` cria registros de teste, lista dados, atualiza um aluno, remove o aluno e, no `finally`, chama **`await db.destroy()`** para encerrar o *pool* de conexões. Em scripts únicos isso evita deixar o processo pendurado; em um servidor HTTP o encerramento costuma ocorrer no *shutdown* da aplicação.
 
 ## Estrutura de pastas
 
@@ -162,6 +164,13 @@ async function findById(id) {
   return db('aluno').where('id', id).first();
 }
 
+async function findWithEnderecos(id) {
+  const aluno = await findById(id);
+  if (!aluno) return null;
+  const enderecos = await db('endereco').where('id_aluno', id);
+  return { ...aluno, enderecos };
+}
+
 async function create(aluno) {
   const alunos = await db('aluno').insert(aluno).returning('*');
   return alunos[0];
@@ -176,7 +185,14 @@ async function remove(id) {
   return db('aluno').where({ id }).del();
 }
 
-module.exports = { findAll, findById, create, update, remove };
+module.exports = {
+  findAll,
+  findById,
+  findWithEnderecos,
+  create,
+  update,
+  remove,
+};
 ```
 
 O projeto também mostra **dados relacionados** de duas formas: duas consultas (`findWithEnderecos` em `aluno.js`) ou uma consulta com `join` (`findWithAlunos` em `curso.js`).

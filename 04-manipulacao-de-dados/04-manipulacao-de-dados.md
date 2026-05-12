@@ -235,7 +235,7 @@ Padrão: buscar a entidade principal, depois os filhos (claro e fácil de depura
 
 ```js
 async function findWithEnderecos(id) {
-  const aluno = await db('aluno').where('id', id).first();
+  const aluno = await findById(id);
   if (!aluno) return null;
 
   const enderecos = await db('endereco').where('id_aluno', id);
@@ -243,7 +243,7 @@ async function findWithEnderecos(id) {
 }
 ```
 
----
+Como em **`src/model/aluno.js`**: reutiliza **`findById`** em vez de repetir a consulta ao aluno.
 
 ## Dados relacionados — `join`
 
@@ -319,7 +319,7 @@ main();
 - Paginação (`limit` / `offset`)
 - Ordenação (`orderBy`)
 - Busca textual (`whereILike` no PostgreSQL)
-- **API REST** expondo os modelos
+- **API REST** com Express — roteiros no [README.md](./README.md) (exercícios de implementação)
 - **Migrações Knex** em vez de só `script.sql`
 
 ---
