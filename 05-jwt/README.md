@@ -230,7 +230,15 @@ Repare: middleware global sempre roda primeiro; só depois o Express decide qual
 
 ### Registro com senha hasheada (`src/model/usuario.js`)
 
-A senha nunca é persistida em texto puro. O `bcrypt.hash` gera um hash com *salt* embutido; na comparação do login usamos `bcrypt.compare`:
+A senha nunca é persistida em texto puro. Em vez disso, guardamos um **hash** — uma transformação unidirecional: dá para verificar se a senha informada bate com a armazenada, mas não dá para “desfazer” o hash e recuperar a senha original.
+
+**O que é *salt*?**
+
+*Salt* (sal, em português) é um valor **aleatório** gerado para **cada senha** antes do hash. Ele é concatenado à senha e o resultado é hasheado. O bcrypt gera o salt automaticamente e **embute** esse valor no hash final — por isso dois usuários com a mesma senha (`123456`) acabam com hashes diferentes no banco.
+
+Analogia: salgar um prato antes de cozinhar. Dois pratos iguais (mesma senha) ficam com “sabor” diferente se cada um receber uma pitada aleatória de sal. Sem salt, senhas iguais produziriam hashes iguais — um atacante que descobrisse o hash de `123456` para um usuário saberia que **todos** com aquele mesmo hash usam a mesma senha (*rainbow tables*).
+
+No registro, `bcrypt.hash` aplica o salt e gera o hash; no login, `bcrypt.compare` extrai o salt do hash salvo e repete o processo com a senha informada:
 
 ```javascript
 const senhaHash = await bcrypt.hash(senha, SALT_ROUNDS);
