@@ -10,6 +10,7 @@
   - [Projeto de Manipulação de Dados com Node.js e Knex](./04-manipulacao-de-dados)
 - Node.js e Express
   - [Express.js: configuração e estrutura de projetos](./05-express-configuracao-estrutura-projetos/)
+  - [Tokenização com JWT: JSON Web Tokens](./05-jwt/)
   - [Padrão Movel View Controller (MVC)](./06-padrao-mvc/)
   - [Configuração de CORS](./07-cors/)
 
