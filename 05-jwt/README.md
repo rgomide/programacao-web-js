@@ -368,19 +368,57 @@ No **RapidAPI Client**, crie uma requisição `GET http://localhost:3000/alunos`
 
 Adicione `POST /alunos` que cria um aluno no banco, **somente para usuários autenticados**. Reutilize o padrão do modelo `aluno` do projeto Express (`insert`). Retorne **201** com o aluno criado.
 
-### Exercício 2 — Middleware opcional
+### Exercício 2 — Atualizar apenas o próprio registro de aluno
+
+**Objetivo:** ir além da **autenticação** (provar quem está logado) e implementar **autorização** (definir o que essa pessoa pode fazer). Só o aluno vinculado ao usuário autenticado pode alterar o **próprio** cadastro.
+
+#### Parte A — Vincular `usuario` a `aluno`
+
+Hoje as tabelas são independentes. Adicione a coluna `id_aluno` em `usuario`, referenciando `aluno(id)`:
+
+```sql
+ALTER TABLE usuario
+  ADD COLUMN id_aluno INTEGER REFERENCES aluno(id);
+```
+
+Ajuste o fluxo de **registro** ou **login** para preencher `id_aluno` quando existir um aluno com o **mesmo email** do usuário. Inclua `id_aluno` no payload do JWT (`jwt.sign`).
+
+#### Parte B — Rota de atualização
+
+Implemente `PUT /alunos/:id` (protegida com `authMiddleware`) que recebe no body JSON os campos editáveis (`nome`, `email`, `data_nascimento`, `matricula`), reutilizando o padrão `update` do projeto Express.
+
+**Regras de autorização:**
+
+| Situação | Status | Resposta sugerida |
+|----------|--------|-------------------|
+| Token ausente ou inválido | **401** | Já tratado pelo `authMiddleware` |
+| Usuário autenticado **sem** `id_aluno` vinculado | **403** | `{ "erro": "Usuário não vinculado a um aluno" }` |
+| `:id` da URL **diferente** de `req.usuario.id_aluno` | **403** | `{ "erro": "Você só pode atualizar seu próprio cadastro" }` |
+| Aluno não existe | **404** | `{ "erro": "Aluno não encontrado" }` |
+| Tudo OK | **200** | JSON com o aluno atualizado |
+
+**Exemplo de teste:**
+
+1. Registre um usuário com email `joao.silva@example.com` (já existe na seed de [sql/aluno.sql](./sql/aluno.sql)).
+2. Faça login e obtenha o token.
+3. `PUT /alunos/1` com Bearer token e body válido → **200**.
+4. `PUT /alunos/2` com o **mesmo** token → **403** (João não pode alterar o cadastro da Maria).
+
+**Dica:** compare os IDs como número (`Number(req.params.id)`) para evitar que `"1" !== 1` passe batido.
+
+### Exercício 3 — Middleware opcional
 
 Crie um middleware `authOptional` que, se houver token válido, preenche `req.usuario`; se não houver token, segue mesmo assim (`next()`). Use em `GET /` para incluir `"usuario": { ... }` na resposta quando autenticado.
 
-### Exercício 3 — Validação de senha no registro
+### Exercício 4 — Validação de senha no registro
 
 No `POST /auth/register`, exija senha com **mínimo 8 caracteres** e pelo menos **um número**. Retorne **400** com mensagem clara se a regra falhar.
 
-### Exercício 4 — Refresh de perfil após alteração
+### Exercício 5 — Refresh de perfil após alteração
 
 Implemente `PUT /auth/me` (protegida) para atualizar `nome` do usuário logado. Após salvar no banco, **emita um novo JWT** com o nome atualizado e devolva `{ token, usuario }`.
 
-### Exercício 5 — Tratamento de token expirado
+### Exercício 6 — Tratamento de token expirado
 
 No middleware, distinga token expirado (`TokenExpiredError`) de token inválido e retorne JSON diferente, por exemplo `{ "erro": "Token expirado", "codigo": "TOKEN_EXPIRADO" }`, para o front-end saber quando pedir login de novo.
 
