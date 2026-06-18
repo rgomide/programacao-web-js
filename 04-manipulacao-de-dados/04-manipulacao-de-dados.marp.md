@@ -11,6 +11,13 @@ author: Renato de Sousa Gomide
 style: |
   section {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Marp default theme v4+ uses place-content: safe center center — not flex justify */
+    place-content: start;
+    box-sizing: border-box;
+  }
+  /* Title slide: keep default vertical (and horizontal) centering */
+  section.cover {
+    place-content: safe center center;
   }
   h1 {
     border-bottom: 2px solid #000;
@@ -78,6 +85,7 @@ style: |
 ---
 
 <!-- paginate: false -->
+<!-- _class: cover -->
 <!-- _footer: "" -->
 
 ![bg left:40% h:50%](../assets/img/logo_trindade.png)
