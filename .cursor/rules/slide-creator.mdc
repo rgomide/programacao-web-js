@@ -1,0 +1,40 @@
+---
+description: Criação de slides didáticos em MARP para o curso
+globs: **/*-slides.md, **/*.marp.md
+alwaysApply: false
+---
+
+# Slide creator (MARP)
+
+Quando o usuário pedir slides ou você editar arquivos de apresentação, siga estas regras.
+
+## Formato e template
+
+- Use **MARP** (Markdown Presentation Ecosystem).
+- Copie a estrutura de `04-manipulacao-de-dados/04-manipulacao-de-dados.marp.md`: frontmatter (`marp: true`, `lang: pt-BR`, `style`, etc.), capa, paginação e classes CSS (`.stack-row`, blockquotes).
+- Salve o arquivo como `{pasta-tópico}/{pasta-tópico}.marp.md` (ex.: `05-jwt/05-jwt.marp.md`).
+
+## Imagens
+
+- Imagens **geradas ou novas** → `assets/img/{nome-do-projeto}/` (ex.: `assets/img/05-jwt/`).
+- Se for gerar image, utilize SVG sempre que possível.
+- Logo institucional compartilhado → `../assets/img/logo_trindade.png` (a partir da pasta do tópico).
+- Referencie com caminhos relativos ao arquivo `.marp.md` e inclua `alt` descritivo.
+
+## Didática (prioridade máxima)
+
+- Público: **iniciantes** — explique do zero, sem jargão não definido.
+- **Uma ideia por slide**; bullets curtos (máx. ~5 por slide).
+- Abra com **objetivos da aula** e feche com **resumo** ou **próximos passos**.
+- Use **analogias** do dia a dia, **blockquotes** para insights e **negrito** nos termos-chave.
+- Código: trechos **curtos**, com comentário ou slide anterior explicando o *porquê*.
+- Antecipe dúvidas comuns em slide dedicado ou nota em blockquote.
+
+## Estrutura sugerida
+
+1. Capa (título, subtítulo, stack/logos)
+2. Objetivos da aula
+3. Motivação / “por que isso importa?”
+4. Conceitos (progressão simples → complexo)
+5. Exemplos de código ou diagrama
+6. Resumo e referências ao README do tópico

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 320" role="img" aria-label="Fluxo de autenticação JWT">
+  <defs>
+    <style>
+      .actor { fill: #fff6f6; stroke: #dd0000; stroke-width: 2; }
+      .step { fill: #fff; stroke: #333; stroke-width: 1.5; }
+      .title { font: bold 14px 'Segoe UI', sans-serif; fill: #000; }
+      .small { font: 12px 'Segoe UI', sans-serif; fill: #333; }
+      .arrow { stroke: #333; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#333"/>
+    </marker>
+  </defs>
+
+  <rect class="actor" x="30" y="20" width="100" height="40" rx="6"/>
+  <text class="title" x="80" y="45" text-anchor="middle">Cliente</text>
+
+  <rect class="actor" x="380" y="20" width="100" height="40" rx="6"/>
+  <text class="title" x="430" y="45" text-anchor="middle">API Express</text>
+
+  <rect class="actor" x="730" y="20" width="120" height="40" rx="6"/>
+  <text class="title" x="790" y="45" text-anchor="middle">PostgreSQL</text>
+
+  <rect class="step" x="120" y="80" width="660" height="36" rx="6"/>
+  <text class="small" x="450" y="103" text-anchor="middle">1. POST /auth/register ’ senha hasheada com bcrypt ’ INSERT usuario</text>
+
+  <rect class="step" x="120" y="130" width="660" height="36" rx="6"/>
+  <text class="small" x="450" y="153" text-anchor="middle">2. POST /auth/login ’ bcrypt.compare ’ jwt.sign ’ { token }</text>
+
+  <rect class="step" x="120" y="180" width="660" height="36" rx="6"/>
+  <text class="small" x="450" y="203" text-anchor="middle">3. GET /alunos + Authorization: Bearer TOKEN</text>
+
+  <rect class="step" x="120" y="230" width="660" height="36" rx="6"/>
+  <text class="small" x="450" y="253" text-anchor="middle">4. authMiddleware ’ jwt.verify ’ handler ’ SELECT alunos ’ 200</text>
+
+  <line class="arrow" x1="80" y1="60" x2="80" y2="78"/>
+  <line class="arrow" x1="430" y1="60" x2="430" y2="78"/>
+  <line class="arrow" x1="790" y1="60" x2="790" y2="78"/>
+
+  <text class="small" x="450" y="300" text-anchor="middle">Rotas públicas: register e login · Rotas protegidas: /alunos, /auth/me</text>
+</svg>

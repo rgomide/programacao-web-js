@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 140" role="img" aria-label="Anatomia de um JWT: Header, Payload e Signature separados por pontos">
+  <defs>
+    <style>
+      .box { fill: #fff; stroke: #333; stroke-width: 2; rx: 8; }
+      .title { font: bold 16px 'Segoe UI', sans-serif; fill: #dd0000; }
+      .sub { font: 12px 'Segoe UI', sans-serif; fill: #555; }
+      .dot { font: bold 28px 'Segoe UI', sans-serif; fill: #000; }
+      .label { font: bold 14px 'Segoe UI', sans-serif; fill: #000; }
+    </style>
+  </defs>
+  <rect class="box" x="10" y="30" width="200" height="80"/>
+  <text class="title" x="110" y="58" text-anchor="middle">HEADER</text>
+  <text class="sub" x="110" y="78" text-anchor="middle">algoritmo + tipo</text>
+  <text class="sub" x="110" y="96" text-anchor="middle">ex.: HS256, JWT</text>
+
+  <text class="dot" x="228" y="82" text-anchor="middle">.</text>
+
+  <rect class="box" x="250" y="30" width="280" height="80"/>
+  <text class="title" x="390" y="58" text-anchor="middle">PAYLOAD</text>
+  <text class="sub" x="390" y="78" text-anchor="middle">claims: id, email, exp...</text>
+  <text class="sub" x="390" y="96" text-anchor="middle">codificado, não criptografado</text>
+
+  <text class="dot" x="548" y="82" text-anchor="middle">.</text>
+
+  <rect class="box" x="570" y="30" width="240" height="80"/>
+  <text class="title" x="690" y="58" text-anchor="middle">SIGNATURE</text>
+  <text class="sub" x="690" y="78" text-anchor="middle">header + payload</text>
+  <text class="sub" x="690" y="96" text-anchor="middle">assinados com JWT_SECRET</text>
+
+  <text class="label" x="410" y="22" text-anchor="middle">JWT = três partes em Base64URL</text>
+</svg>

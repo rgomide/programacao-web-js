@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 200" role="img" aria-label="Pipeline de middleware no Express">
+  <defs>
+    <style>
+      .box { fill: #fff; stroke: #333; stroke-width: 2; }
+      .gate { fill: #fff6f6; stroke: #dd0000; stroke-width: 2; }
+      .ok { fill: #f0fff0; stroke: #2d8a2d; stroke-width: 2; }
+      .err { fill: #fff0f0; stroke: #dd0000; stroke-width: 2; }
+      .t { font: bold 13px 'Segoe UI', sans-serif; fill: #000; }
+      .s { font: 11px 'Segoe UI', sans-serif; fill: #555; }
+      .arrow { stroke: #333; stroke-width: 2; fill: none; marker-end: url(#a); }
+    </style>
+    <marker id="a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#333"/>
+    </marker>
+  </defs>
+
+  <rect class="box" x="10" y="70" width="110" height="50" rx="6"/>
+  <text class="t" x="65" y="92" text-anchor="middle">Requisição</text>
+  <text class="s" x="65" y="108" text-anchor="middle">HTTP</text>
+
+  <rect class="box" x="150" y="70" width="110" height="50" rx="6"/>
+  <text class="t" x="205" y="92" text-anchor="middle">express.json</text>
+  <text class="s" x="205" y="108" text-anchor="middle">global</text>
+
+  <rect class="box" x="290" y="70" width="90" height="50" rx="6"/>
+  <text class="t" x="335" y="100" text-anchor="middle">cors</text>
+
+  <rect class="gate" x="410" y="70" width="120" height="50" rx="6"/>
+  <text class="t" x="470" y="92" text-anchor="middle">authMiddleware</text>
+  <text class="s" x="470" y="108" text-anchor="middle">só /alunos</text>
+
+  <rect class="ok" x="560" y="70" width="110" height="50" rx="6"/>
+  <text class="t" x="615" y="100" text-anchor="middle">Handler</text>
+
+  <rect class="err" x="410" y="150" width="160" height="40" rx="6"/>
+  <text class="t" x="490" y="175" text-anchor="middle">401 Unauthorized</text>
+
+  <line class="arrow" x1="120" y1="95" x2="148" y2="95"/>
+  <line class="arrow" x1="260" y1="95" x2="288" y2="95"/>
+  <line class="arrow" x1="380" y1="95" x2="408" y2="95"/>
+  <line class="arrow" x1="530" y1="95" x2="558" y2="95"/>
+  <line class="arrow" x1="470" y1="120" x2="470" y2="148"/>
+
+  <text class="s" x="470" y="55" text-anchor="middle">token válido ’ next() · inválido ’ res.status(401)</text>
+</svg>
