@@ -402,6 +402,19 @@ npm run generate:jwt-secret
 
 ---
 
+## Autenticação vs Autorização
+
+O `authMiddleware` resolve só metade do problema: ele prova **quem** está logado (**autenticação**). Decidir **o que** essa pessoa pode fazer é **autorização** — uma camada separada, construída por cima.
+
+> Exemplo: João e Maria autenticados com tokens válidos. João tenta editar o cadastro da Maria — token válido, mas ação **não autorizada**.
+
+| Situação | Status |
+|----------|--------|
+| Token ausente/inválido | **401** (autenticação) |
+| Token válido, ação não permitida | **403** (autorização) |
+
+---
+
 ## Resumo
 
 - **JWT** = crachá assinado pelo servidor; cliente envia a cada requisição
@@ -416,6 +429,17 @@ npm run generate:jwt-secret
 
 - Distinguir token **expirado** vs **inválido** (código `TOKEN_EXPIRADO`)
 - Tópicos avançados: *refresh token*, blacklist, logout imediato
+
+---
+
+## Exercícios propostos
+
+1. **Proteger criação de aluno** — `POST /alunos` só para autenticados
+2. **Autorização** — usuário só atualiza o **próprio** aluno (`PUT /alunos/:id` + `id_aluno`)
+3. **Middleware opcional** — `authOptional` preenche `req.usuario` se houver token, sem bloquear
+4. **Validação de senha** — mínimo 8 caracteres + 1 número no registro
+5. **Refresh de perfil** — `PUT /auth/me` emite **novo** JWT após atualizar nome
+6. **Token expirado vs inválido** — distinguir `TokenExpiredError` com código `TOKEN_EXPIRADO`
 
 ---
 
